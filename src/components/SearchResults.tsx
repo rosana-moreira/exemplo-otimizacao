@@ -6,8 +6,12 @@ interface SearchResultsProps {
     prince: number;
     title: string;
   }>;
+  onAddToWishlist: (id: number) => void;
 }
-export default function SearchResults({ results }: SearchResultsProps) {
+export default function SearchResults({
+  results,
+  onAddToWishlist,
+}: SearchResultsProps) {
   const totalPrice = useMemo(() => {
     return results.reduce((total, product) => {
       return total + product.prince;
@@ -17,8 +21,13 @@ export default function SearchResults({ results }: SearchResultsProps) {
     <div>
       <h2>{totalPrice}</h2>
       {results.map((product) => {
-        // eslint-disable-next-line react/jsx-key
-        return <ProductItem product={product} />;
+        return (
+          <ProductItem
+            key={product.id}
+            product={product}
+            onAddToWishlist={onAddToWishlist}
+          />
+        );
       })}
     </div>
   );
